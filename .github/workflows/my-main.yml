@@ -27,14 +27,15 @@ jobs:
       - name: Clone our repository
         uses: actions/checkout@v1
       - name: List current directory
-        run: |
-          ls -la
-      - name: Run java cod
-        run: |
-          mkdir bin
-          javac -sourcepath ./src -d bin src/Main.java
-          java -classpath ./bin/Main
-        
+        run: ls -la
+      - name: Create directory bin
+        run: mkdir bin
+      - name: List current directory
+        run: ls -la
+      - name: Run javac
+        run: javac -sourcepath ./src -d bin src/Main.java
+      - name: Run java
+        run: java -classpath ./bin/Main
     
   my_testing:  
     runs-on: [ubuntu-latest]
