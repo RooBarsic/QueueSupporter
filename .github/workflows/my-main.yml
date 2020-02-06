@@ -33,7 +33,7 @@ jobs:
         run: |
           mkdir bin
           javac -sourcepath ./src -d bin src/Main.java
-          javac -classpath ./bin/Main
+          java -classpath ./bin/Main
         
     
   my_testing:  
