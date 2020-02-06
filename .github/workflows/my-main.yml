@@ -35,7 +35,7 @@ jobs:
       - name: Run javac
         run: javac -sourcepath ./src -d bin src/Main.java
       - name: Run java
-        run: java -classpath ./bin/Main
+        run: java -classpath ./bin Main
     
   my_testing:  
     runs-on: [ubuntu-latest]
