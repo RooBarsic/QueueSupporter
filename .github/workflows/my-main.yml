@@ -29,16 +29,24 @@ jobs:
       - name: List current directory
         run: |
           ls -la
+      - name: Run java cod
+        run: |
+          mkdir bin
+          javac -sourcepath ./src -d bin src/Main.java
+          javac -classpath ./bin/Main
+        
     
   my_testing:  
     runs-on: [ubuntu-latest]
     needs: [my_build] # - для запуска этой jobы - нужно полное выполнение первой jobы ( добавляет последовательность )
 
     steps:
-      - name: init-worcflow
-        run: |
-          sudo apt install openjdk-8-jdk
-          sudo apt install openjdk-8-jre
+#----------------
+#      - name: init-worcflow
+#        run: |
+#          sudo apt install openjdk-8-jdk
+#          sudo apt install openjdk-8-jre
+#--------------------------
       - name: Java version
         run: java -version
       - name: Print Hello Message
