@@ -22,6 +22,8 @@ jobs:
           echo "Hello Roo"
           echo "Hello Barsic"
           echo "Application name : ${{env.APPLICATION_NAME}}"
+      - name: List current directory
+        run: ls -la
   
   my_testing:  
     runs-on: [ubuntu-latest]
