@@ -3,6 +3,9 @@
 # 
 #----------------
 name: myGitActionsBasics
+env:
+  APPLICATION_NAME : "QueueSupporter"
+  PACKAGE_NAME     : "flame-testing-ver-${{github.sha}}"
 
 on: [push]
 
@@ -13,7 +16,12 @@ jobs:
 
     steps:
       - name: Print Hello Message 
-        run: echo "Hello Fara"
+        run: echo "Hello Fara from building"
+      - name: Execute few commands
+        run: |
+          echo "Hello Roo"
+          echo "Hello Barsic"
+          echo "Application name : {{env.APPLICATION_NAME}}"
   
   my_testing:  
     runs-on: [ubuntu-latest]
@@ -21,5 +29,10 @@ jobs:
 
     steps:
       - name: Print Hello Message
-        run: echo "Hello Saba"
+        run: echo "Hello Saba from testing"
+      - name: Execute few commands
+        run: |
+          echo "Hello Roo"
+          echo "Hello Barsic"
+          echo "PACKAGE  name : {{env.PACKAGE_NAME}}"
         
