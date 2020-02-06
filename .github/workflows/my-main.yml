@@ -35,6 +35,10 @@ jobs:
     needs: [my_build] # - для запуска этой jobы - нужно полное выполнение первой jobы ( добавляет последовательность )
 
     steps:
+      - name: init-worcflow
+        run: |
+          sudo apt install openjdk-8-jdk
+          sudo apt install openjdk-8-jre
       - name: Java version
         run: java -version
       - name: Print Hello Message
