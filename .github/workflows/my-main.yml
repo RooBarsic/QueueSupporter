@@ -1,0 +1,23 @@
+#----------------
+# - kommentarii
+# 
+#----------------
+name: myGitActionsBasics
+
+on: [push]
+
+jobs:
+  my_build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print Hello Message 
+        run: echo "Hello Fara"
+  my_testing:
+    
+    runs-on: [ubuntu-latest]
+    steps:
+      - name: Print Hello Message
+        run: echo "Hello Saba"
+        
