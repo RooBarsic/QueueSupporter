@@ -14,9 +14,11 @@ jobs:
     steps:
       - name: Print Hello Message 
         run: echo "Hello Fara"
-  my_testing:
-    
+  
+  my_testing:  
     runs-on: [ubuntu-latest]
+    needs: [my_build] # - для запуска этой jobы - нужно полное выполнение первой jobы ( добавляет последовательность )
+
     steps:
       - name: Print Hello Message
         run: echo "Hello Saba"
