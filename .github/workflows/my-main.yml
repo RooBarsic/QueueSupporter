@@ -33,25 +33,24 @@ jobs:
       - name: List current directory
         run: ls -la
       - name: Run javac
-        run: javac -sourcepath ./src -d bin src/Main.java
+        run: javac -sourcepath ./src/main/java/ -d bin src/Main.java
       - name: Run java
         run: java -classpath ./bin Main
     
-  my_testing:  
+  my_installing:  
     runs-on: [ubuntu-latest]
+    
     needs: [my_build] # - для запуска этой jobы - нужно полное выполнение первой jobы ( добавляет последовательность )
 
     steps:
-#----------------
-#      - name: init-worcflow
-#        run: |
-#          sudo apt install openjdk-8-jdk
-#          sudo apt install openjdk-8-jre
-#--------------------------
       - name: Java version
         run: java -version
       - name: Print Hello Message
         run: echo "Hello Saba from testing"
+      - name: Install maven
+        run: sudo apt-get -y install maven
+      - name: mvn -version
+        run: mvn -version
       - name: Execute few commands
         run: |
           echo "Hello Roo"
