@@ -32,7 +32,7 @@ jobs:
       - name: List current directory
         run: ls -la
       - name: Run javac
-        run: javac -sourcepath ./src/main/java/ -d bin src/Main.java
+        run: javac -sourcepath ./src/main/java/ -d bin src/main/java/Main.java
       - name: Run java
         run: java -classpath ./bin Main
     
