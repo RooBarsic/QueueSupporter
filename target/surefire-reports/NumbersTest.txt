@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: NumbersTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.189 s <<< FAILURE! - in NumbersTest
+intervalSumOk(NumbersTest)  Time elapsed: 0.091 s  <<< FAILURE!
+java.lang.AssertionError: expected:<32081> but was:<32076>
+	at NumbersTest.intervalSumOk(NumbersTest.java:34)
+
