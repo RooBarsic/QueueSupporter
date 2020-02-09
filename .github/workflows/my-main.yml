@@ -66,6 +66,6 @@ jobs:
           java -version
           mvn -version
       - name: clone repository
-        uses: actions/checkout@1
+        uses: actions/checkout@v1
       - name: mvn test
         run: mvn test
