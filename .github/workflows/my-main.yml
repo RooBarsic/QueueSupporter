@@ -56,3 +56,16 @@ jobs:
           echo "Hello Barsic"
           echo "PACKAGE  name : ${{env.PACKAGE_NAME}}"
         
+  unit-test:
+    runs-on: [ubuntu-latest]
+    steps:
+      - name: Install maven
+        run: sudo apt-get -y install maven
+      - name: java mvn version
+        run: |
+          java -version
+          mvn -version
+      - name: clone repository
+        uses: actions/checkout@1
+      - name: mvn test
+        run: mvn test
