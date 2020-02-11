@@ -2,6 +2,9 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+/**
+ * Simple unit test.
+ */
 public class NumbersTest {
     @Test
     public void sumCorrectForPositiveNumbers(){
