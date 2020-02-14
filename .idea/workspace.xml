@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="27a6e16e-d3c7-4b38-ac89-118827093b82" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/logic/Customer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/logic/EngineeredQueue.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/logic/Customer.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/logic/EngineeredQueue.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/NumbersTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/NumbersTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/NumbersTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/NumbersTest.class" afterDir="false" />
-    </list>
+    <list default="true" id="27a6e16e-d3c7-4b38-ac89-118827093b82" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
