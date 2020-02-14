@@ -1,22 +1,25 @@
-package logic;
+package logic.customer;
 
-import java.util.Objects;
+import org.jetbrains.annotations.NotNull;
 
 /**
- * Date: 09.02.2020
+ * Класс для хранения данных о клиентах.
+ * Храним имя клиента и номер его телефона
  * Author: Farrukh Karimov
+ * Modification Date: 09.02.2020
  */
-public class Customer {
+public class Customer implements PhoneAvailable {
     private String name;
-    private String phoneNumber;
+    @NotNull
+    private final String phoneNumber;
 
-    public Customer(final String customerName, final String phoneNumber){
+    public Customer(final  String customerName, @NotNull final  String phoneNumber){
         this.name = customerName;
         this.phoneNumber = phoneNumber;
     }
 
-    public Customer(final String phoneNumber){
-        this.name = "";
+    public Customer(@NotNull final String phoneNumber){
+        this.name = "-";
         this.phoneNumber = phoneNumber;
     }
 
@@ -28,7 +31,8 @@ public class Customer {
         name = customerName;
     }
 
-    public String getPhoneNumber(){
+    @Override
+    public @NotNull String getPhoneNumber() {
         return phoneNumber;
     }
 
@@ -36,12 +40,14 @@ public class Customer {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Customer)) return false;
+
         Customer customer = (Customer) o;
+
         return getPhoneNumber().equals(customer.getPhoneNumber());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getPhoneNumber());
+        return getPhoneNumber().hashCode();
     }
 }
