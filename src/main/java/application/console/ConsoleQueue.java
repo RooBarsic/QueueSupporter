@@ -3,6 +3,7 @@ package application.console;
 import helpers.ControllerIO;
 import logic.customer.Customer;
 import logic.queue.QueuesBox;
+import logic.queue.ScheduledEngineeredQueueImpl;
 import org.jetbrains.annotations.NotNull;
 
 
@@ -14,11 +15,11 @@ import org.jetbrains.annotations.NotNull;
 public class ConsoleQueue {
     private final ControllerIO controllerIO;
     private final String availableCommands;
-    private final QueuesBox<Customer> queueBox;
+    private final QueuesBox<Customer, ScheduledEngineeredQueueImpl<Customer>> queueBox;
 
     public ConsoleQueue(@NotNull final ControllerIO controllerIO){
         this.controllerIO = controllerIO;
-        this.queueBox = new QueuesBox<Customer>(controllerIO);
+        this.queueBox = new QueuesBox<>(controllerIO);
         availableCommands = "\nadd-queue [queueName] \n" +
                 "clean-queue [queueName] \n" +
                 "remove-queue [queueName] \n" +
@@ -50,7 +51,9 @@ public class ConsoleQueue {
                 switch (command) {
                     case "add-queue":
                         queueBox.addQueue(
-                                controllerIO.getField("queue name")
+                                new ScheduledEngineeredQueueImpl<>(
+                                        controllerIO.getField("queue name")
+                                )
                         );
                         break;
                     case "clean-queue":

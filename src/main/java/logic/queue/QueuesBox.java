@@ -14,9 +14,9 @@ import java.util.Map;
  * Author: Farrukh Karimov
  * Modification Date: 13.02.2020
  */
-public class QueuesBox<T> {
+public class QueuesBox<T, B extends EngineeredQueue<T>> {
     private final ControllerIO controllerIO;
-    private final Map<String, EngineeredQueue<T>> queueByName = new HashMap<>();
+    private final Map<String, B> queueByName = new HashMap<>();
 
     public QueuesBox(@NotNull final ControllerIO controllerIO){
         this.controllerIO = controllerIO;
@@ -37,15 +37,15 @@ public class QueuesBox<T> {
 
     /**
      * Метод для добавления новой очереди
-     * @param queueName получает на вход имя очереди
+     * @param queue получает на вход очередь
      * @return возвращает false если очередь с таким именем уже существует, иначе возвращает true
      */
-    public boolean addQueue(@NotNull final String queueName){
-        if(queueByName.containsKey(queueName)) {
-            controllerIO.printErrorMessage("queue " + queueName + " already exist. ");
+    public boolean addQueue(@NotNull final B queue){
+        if(queueByName.containsKey(queue.getQueueName())) {
+            controllerIO.printErrorMessage("queue " + queue.getQueueName() + " already exist. ");
             return false;
         }
-        queueByName.put(queueName, new EngineeredQueue<T>(queueName));
+        queueByName.put(queue.getQueueName(), queue);
         return true;
     }
 
@@ -55,7 +55,7 @@ public class QueuesBox<T> {
      * @return возвращает null если такой очереди не существует, иначе возвращает эту очередь
      */
     @Nullable
-    public EngineeredQueue<T> getQueue(@NotNull final String queueName){
+    public B getQueue(@NotNull final String queueName){
         return queueExist(queueName) ?
                 queueByName.get(queueName) :
                 null;
