@@ -3,10 +3,7 @@ package logic.queue;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Наша спроектированная очередь
@@ -14,10 +11,12 @@ import java.util.Set;
  * Modification Date: 12.02.2020
  */
 public class EngineeredQueue<T> {
+    private int count = 0;
     @NotNull
     private String queueName;
-    private List<T> customersList = new ArrayList<>();
+    private List<Integer> customersIdsList = new ArrayList<>();
     private Set<T> customersSet = new HashSet<>();
+    private Map<T, Integer> idByCustomer = new HashMap<>();
 
     /**
      * Конструктор - создание новой очереди с определенным именем
@@ -38,8 +37,10 @@ public class EngineeredQueue<T> {
      * @return возвращает true если элемент успешно добавлен, false если такой елемент уже существует
      */
     public boolean add(@NotNull final T var){
-        if(customersSet.add(var)){
-            customersList.add(var);
+        if(!idByCustomer.containsKey(var)){
+            count++;
+            idByCustomer.put(var, count);
+            customersIdsList.add(count);
             return true;
         }
         return false;
@@ -52,8 +53,9 @@ public class EngineeredQueue<T> {
      * @return возвращает true если такой обект был в очереди и мы только что его удалили, false иначе
      */
     public boolean remove(@NotNull final T var){
-        if(customersSet.remove(var)){
-            return customersList.remove(var);
+        if(idByCustomer.containsKey(var)){
+            int customerId = idByCustomer.remove(var);
+            return customersIdsList.remove(new Integer(customerId));
         }
         return false;
     }
@@ -65,24 +67,43 @@ public class EngineeredQueue<T> {
      * @return возвращает позицию обекта в очереди - если в очереди есть такой обект ( иначе возвращает -1 )
      */
     public int findIndex(@NotNull final T var){
-        if(customersSet.contains(var)){
-            return customersList.indexOf(var) + 1;
+        if(idByCustomer.containsKey(var)){
+            final int customerId = idByCustomer.get(var);
+            return customerPositionInQueue(customerId);
         }
         return -1;
+    }
+
+    private int customerPositionInQueue(final int customerId){
+        int left = 0;
+        int right = customersIdsList.size() - 1;
+        while(left + 1 < right){
+            int mid = (left + right) / 2;
+            if(customersIdsList.get(mid) < customerId){
+                left = mid;
+            } else {
+                right = mid;
+            }
+        }
+        if(customersIdsList.get(left) == customerId){
+            return left;
+        }
+        return right;
     }
 
     /**
      * @return возвращает количество элементов в очереди
      */
     public int size(){
-        return customersList.size();
+        return customersIdsList.size();
     }
 
     /**
      * Метод для очистки очереди
      */
     public void clear(){
-        customersList.clear();
-        customersSet.clear();
+        count = 0;
+        customersIdsList.clear();
+        idByCustomer.clear();
     }
 }

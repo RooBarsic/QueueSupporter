@@ -2,14 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="27a6e16e-d3c7-4b38-ac89-118827093b82" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/application/console/ConsoleQueue.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/helpers/ControllerIO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/logic/customer/PhoneAvailable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/logic/queue/QueuesBox.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/logic/Customer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/logic/customer/Customer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/logic/EngineeredQueue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/logic/queue/EngineeredQueue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/logic/queue/EngineeredQueue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/logic/queue/EngineeredQueue.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -113,6 +107,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.Main" />
+      <item itemvalue="JUnit.NumbersTest" />
+      <item itemvalue="JUnit.NumbersTest.sumPositiveNumbers" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
@@ -150,6 +149,7 @@
       <workItem from="1581346780097" duration="5187000" />
       <workItem from="1581421230872" duration="839000" />
       <workItem from="1581676546877" duration="1497000" />
+      <workItem from="1582273456852" duration="1957000" />
     </task>
     <servers />
   </component>
@@ -161,7 +161,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
@@ -196,22 +198,22 @@
       <screen x="0" y="30" width="1280" height="770" />
     </state>
     <state x="423" y="173" width="424" height="487" key="FileChooserDialogImpl/0.30.1280.770@0.30.1280.770" timestamp="1581251255822" />
-    <state width="1234" height="219" key="GridCell.Tab.0.bottom" timestamp="1581678189337">
+    <state width="1234" height="143" key="GridCell.Tab.0.bottom" timestamp="1582275539223">
       <screen x="0" y="30" width="1280" height="770" />
     </state>
-    <state width="1234" height="219" key="GridCell.Tab.0.bottom/0.30.1280.770@0.30.1280.770" timestamp="1581678189337" />
-    <state width="1234" height="219" key="GridCell.Tab.0.center" timestamp="1581678189336">
+    <state width="1234" height="143" key="GridCell.Tab.0.bottom/0.30.1280.770@0.30.1280.770" timestamp="1582275539223" />
+    <state width="1234" height="143" key="GridCell.Tab.0.center" timestamp="1582275539219">
       <screen x="0" y="30" width="1280" height="770" />
     </state>
-    <state width="1234" height="219" key="GridCell.Tab.0.center/0.30.1280.770@0.30.1280.770" timestamp="1581678189336" />
-    <state width="1234" height="219" key="GridCell.Tab.0.left" timestamp="1581678189335">
+    <state width="1234" height="143" key="GridCell.Tab.0.center/0.30.1280.770@0.30.1280.770" timestamp="1582275539219" />
+    <state width="1234" height="143" key="GridCell.Tab.0.left" timestamp="1582275539217">
       <screen x="0" y="30" width="1280" height="770" />
     </state>
-    <state width="1234" height="219" key="GridCell.Tab.0.left/0.30.1280.770@0.30.1280.770" timestamp="1581678189335" />
-    <state width="1234" height="219" key="GridCell.Tab.0.right" timestamp="1581678189336">
+    <state width="1234" height="143" key="GridCell.Tab.0.left/0.30.1280.770@0.30.1280.770" timestamp="1582275539217" />
+    <state width="1234" height="143" key="GridCell.Tab.0.right" timestamp="1582275539222">
       <screen x="0" y="30" width="1280" height="770" />
     </state>
-    <state width="1234" height="219" key="GridCell.Tab.0.right/0.30.1280.770@0.30.1280.770" timestamp="1581678189336" />
+    <state width="1234" height="143" key="GridCell.Tab.0.right/0.30.1280.770@0.30.1280.770" timestamp="1582275539222" />
     <state width="1234" height="229" key="GridCell.Tab.1.bottom" timestamp="1581248392963">
       <screen x="0" y="30" width="1280" height="770" />
     </state>
