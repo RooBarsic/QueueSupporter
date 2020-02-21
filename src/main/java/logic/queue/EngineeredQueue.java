@@ -7,24 +7,54 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.swing.Timer;
 
 /**
  * Наша спроектированная очередь
  * Author: Farrukh Karimov
  * Modification Date: 12.02.2020
  */
-public class EngineeredQueue<T> {
+public class EngineeredQueue<T>{
+    private int taskExecutionDelayMs = 3 * 60 * 1000;
     @NotNull
-    private String queueName;
-    private List<T> customersList = new ArrayList<>();
-    private Set<T> customersSet = new HashSet<>();
+    private final String queueName;
+    private final Timer releasingTimer;
+    private final List<T> customersList = new ArrayList<>();
+    private final Set<T> customersSet = new HashSet<>();
 
     /**
-     * Конструктор - создание новой очереди с определенным именем
+     * Конструктор - создание новой очереди с определенным именем и дефолтной задержкой на обслуживании
      * @param queueName - принимает имя очереди
      */
     public EngineeredQueue(@NotNull final String queueName){
         this.queueName = queueName;
+        releasingTimer = new Timer(taskExecutionDelayMs, actionEvent -> {
+            synchronized (customersList){
+                if(customersList.size() > 0){
+                    synchronized (customersSet){
+                        remove(customersList.get(0));
+                    }
+                }
+            }
+        });
+    }
+
+    /**
+     * Конструктор - создание новой очереди с заданным именем и задержкой на обслуживании
+     * @param queueName - принимает имя очереди
+     */
+    public EngineeredQueue(@NotNull final String queueName, final int taskExecutionDelayMs){
+        this.queueName = queueName;
+        this.taskExecutionDelayMs = taskExecutionDelayMs;
+        releasingTimer = new Timer(taskExecutionDelayMs, actionEvent -> {
+            synchronized (customersList){
+                if(customersList.size() > 0){
+                    synchronized (customersSet){
+                        remove(customersList.get(0));
+                    }
+                }
+            }
+        });
     }
 
     @NotNull
@@ -40,6 +70,9 @@ public class EngineeredQueue<T> {
     public boolean add(@NotNull final T var){
         if(customersSet.add(var)){
             customersList.add(var);
+            if(customersList.size() == 1){
+                releasingTimer.start();
+            }
             return true;
         }
         return false;
@@ -53,7 +86,14 @@ public class EngineeredQueue<T> {
      */
     public boolean remove(@NotNull final T var){
         if(customersSet.remove(var)){
-            return customersList.remove(var);
+            final int varIndex = customersList.indexOf(var);
+            customersList.remove(varIndex);
+            if(customersSet.size() == 0){
+                releasingTimer.stop();
+            } else if(varIndex == 0){
+                releasingTimer.restart();
+            }
+            return true;
         }
         return false;
     }
