@@ -3,7 +3,11 @@ package logic.queue;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.Timer;
 
 /**
  * Наша спроектированная очередь
@@ -11,19 +15,66 @@ import java.util.*;
  * Modification Date: 12.02.2020
  */
 public class EngineeredQueue<T> {
+    private int taskExecutionDelayMs = 1 * 30 * 1000;
     private int count = 0;
     @NotNull
     private String queueName;
-    private List<Integer> customersIdsList = new ArrayList<>();
-    private Set<T> customersSet = new HashSet<>();
-    private Map<T, Integer> idByCustomer = new HashMap<>();
+    private final Timer releasingTimer;
+    private final List<Integer> customersIdsList = new ArrayList<>();
+    private final Map<T, Integer> idByCustomer = new HashMap<>();
+    private final Map<Integer, T> customerById = new HashMap<>();
 
     /**
-     * Конструктор - создание новой очереди с определенным именем
+     * Конструктор - создание новой очереди с определенным именем и дефолтной задержкой на обслуживании
      * @param queueName - принимает имя очереди
      */
     public EngineeredQueue(@NotNull final String queueName){
         this.queueName = queueName;
+        releasingTimer = new Timer(taskExecutionDelayMs, actionEvent -> {
+            synchronized (customersIdsList){
+                if(customersIdsList.size() > 0){
+                    synchronized (idByCustomer){
+                        synchronized (customerById) {
+                            remove(customerById.get(customersIdsList.get(0)));
+                            try {
+                                System.out.println(" thread going to sleep :: ");
+                                Thread.sleep(60 * 1000);
+                                System.out.println(" thread woke UP :: ");
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    /**
+     * Конструктор - создание новой очереди с заданным именем и задержкой на обслуживании
+     * @param queueName - принимает имя очереди
+     */
+    public EngineeredQueue(@NotNull final String queueName, final int taskExecutionDelayMs){
+        this.queueName = queueName;
+        this.taskExecutionDelayMs = taskExecutionDelayMs;
+        releasingTimer = new Timer(taskExecutionDelayMs, actionEvent -> {
+            synchronized (customersIdsList){
+                if(customersIdsList.size() > 0){
+                    synchronized (idByCustomer){
+                        synchronized (customerById) {
+                            remove(customerById.get(customersIdsList.get(0)));
+                            try {
+                                System.out.println(" thread going to sleep :: ");
+                                Thread.sleep(60 * 1000);
+                                System.out.println(" thread woke UP :: ");
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+            }
+        });
     }
 
     @NotNull
@@ -40,7 +91,11 @@ public class EngineeredQueue<T> {
         if(!idByCustomer.containsKey(var)){
             count++;
             idByCustomer.put(var, count);
+            customerById.put(count, var);
             customersIdsList.add(count);
+            if(customersIdsList.size() == 1){
+                releasingTimer.start();
+            }
             return true;
         }
         return false;
@@ -54,8 +109,17 @@ public class EngineeredQueue<T> {
      */
     public boolean remove(@NotNull final T var){
         if(idByCustomer.containsKey(var)){
-            int customerId = idByCustomer.remove(var);
-            return customersIdsList.remove(new Integer(customerId));
+            final int varId = idByCustomer.get(var);
+            final int varIndex = customerPositionInQueue(varId);
+            customersIdsList.remove(varIndex);
+            idByCustomer.remove(var);
+            customerById.remove(varId);
+            if(customersIdsList.size() == 0){
+                releasingTimer.stop();
+            } else if(varIndex == 0){
+                releasingTimer.restart();
+            }
+            return true;
         }
         return false;
     }
