@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 import javax.swing.Timer;
 
 /**
@@ -18,9 +19,11 @@ public class EngineeredQueue<T>{
     private int taskExecutionDelayMs = 3 * 60 * 1000;
     @NotNull
     private final String queueName;
-    private final Timer releasingTimer;
+    int[] aarr = new int[235235];
+    private Timer releasingTimer = null;
     private final List<T> customersList = new ArrayList<>();
     private final Set<T> customersSet = new HashSet<>();
+    private AtomicBoolean autoRemovingIsRunning = new AtomicBoolean();
 
     /**
      * Конструктор - создание новой очереди с определенным именем и дефолтной задержкой на обслуживании
@@ -28,15 +31,7 @@ public class EngineeredQueue<T>{
      */
     public EngineeredQueue(@NotNull final String queueName){
         this.queueName = queueName;
-        releasingTimer = new Timer(taskExecutionDelayMs, actionEvent -> {
-            synchronized (customersList){
-                if(customersList.size() > 0){
-                    synchronized (customersSet){
-                        remove(customersList.get(0));
-                    }
-                }
-            }
-        });
+        initTimer();
     }
 
     /**
@@ -46,11 +41,28 @@ public class EngineeredQueue<T>{
     public EngineeredQueue(@NotNull final String queueName, final int taskExecutionDelayMs){
         this.queueName = queueName;
         this.taskExecutionDelayMs = taskExecutionDelayMs;
+        initTimer();
+    }
+
+    private void initTimer(){
         releasingTimer = new Timer(taskExecutionDelayMs, actionEvent -> {
             synchronized (customersList){
                 if(customersList.size() > 0){
                     synchronized (customersSet){
-                        remove(customersList.get(0));
+                        boolean flag = autoRemovingIsRunning.get();
+                        while(!autoRemovingIsRunning.compareAndSet(flag, true)){
+                            flag = autoRemovingIsRunning.get();
+                        }
+
+                        customersSet.remove(customersList.remove(0));
+                        if(customersSet.size() == 0) {
+                            releasingTimer.stop();
+                        }
+
+                        flag = autoRemovingIsRunning.get();
+                        while(!autoRemovingIsRunning.compareAndSet(flag, false)){
+                            flag = autoRemovingIsRunning.get();
+                        }
                     }
                 }
             }
@@ -68,6 +80,9 @@ public class EngineeredQueue<T>{
      * @return возвращает true если элемент успешно добавлен, false если такой елемент уже существует
      */
     public boolean add(@NotNull final T var){
+        while(autoRemovingIsRunning.get()){
+
+        }
         if(customersSet.add(var)){
             customersList.add(var);
             if(customersList.size() == 1){
@@ -85,6 +100,9 @@ public class EngineeredQueue<T>{
      * @return возвращает true если такой обект был в очереди и мы только что его удалили, false иначе
      */
     public boolean remove(@NotNull final T var){
+        while(autoRemovingIsRunning.get()){
+
+        }
         if(customersSet.remove(var)){
             final int varIndex = customersList.indexOf(var);
             customersList.remove(varIndex);
@@ -105,6 +123,9 @@ public class EngineeredQueue<T>{
      * @return возвращает позицию обекта в очереди - если в очереди есть такой обект ( иначе возвращает -1 )
      */
     public int findIndex(@NotNull final T var){
+        while(autoRemovingIsRunning.get()){
+
+        }
         if(customersSet.contains(var)){
             return customersList.indexOf(var) + 1;
         }
@@ -115,6 +136,9 @@ public class EngineeredQueue<T>{
      * @return возвращает количество элементов в очереди
      */
     public int size(){
+        while(autoRemovingIsRunning.get()){
+
+        }
         return customersList.size();
     }
 
@@ -122,6 +146,9 @@ public class EngineeredQueue<T>{
      * Метод для очистки очереди
      */
     public void clear(){
+        while(autoRemovingIsRunning.get()){
+
+        }
         customersList.clear();
         customersSet.clear();
     }
