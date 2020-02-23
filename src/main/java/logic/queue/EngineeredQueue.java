@@ -16,9 +16,9 @@ import javax.swing.Timer;
  */
 public class EngineeredQueue<T>{
     private int taskExecutionDelayMs = 3 * 60 * 1000;
+    private Timer releasingTimer;
     @NotNull
     private final String queueName;
-    private final Timer releasingTimer;
     private final List<T> customersList = new ArrayList<>();
     private final Set<T> customersSet = new HashSet<>();
 
@@ -28,15 +28,7 @@ public class EngineeredQueue<T>{
      */
     public EngineeredQueue(@NotNull final String queueName){
         this.queueName = queueName;
-        releasingTimer = new Timer(taskExecutionDelayMs, actionEvent -> {
-            synchronized (customersList){
-                if(customersList.size() > 0){
-                    synchronized (customersSet){
-                        remove(customersList.get(0));
-                    }
-                }
-            }
-        });
+        initTimer();
     }
 
     /**
@@ -46,6 +38,10 @@ public class EngineeredQueue<T>{
     public EngineeredQueue(@NotNull final String queueName, final int taskExecutionDelayMs){
         this.queueName = queueName;
         this.taskExecutionDelayMs = taskExecutionDelayMs;
+        initTimer();
+    }
+
+    private void initTimer(){
         releasingTimer = new Timer(taskExecutionDelayMs, actionEvent -> {
             synchronized (customersList){
                 if(customersList.size() > 0){
